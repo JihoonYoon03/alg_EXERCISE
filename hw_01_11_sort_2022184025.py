@@ -7,13 +7,31 @@ array = [
 ]
 
 def down_heap(arr, root, size):
-    pass
+    left = root * 2 + 1
+    if left >= size:
+        return
+    child = left
+    right = root * 2 + 2
+    if right < size:
+        if arr[left] < arr[right]:
+            child = right
+    if arr[root] < arr[child]:
+        arr[root], arr[child] = arr[child], arr[root]
+        down_heap(arr, child, size)
+
 
 def sort_heap(arr):
+    print(f'before: {arr}')
+    n = len(arr)
+    for i in range((n-1) // 2, -1, -1):
+        down_heap(arr, i, n)
+    for i in range(n-1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        down_heap(arr, 0, i)
+    print(f'after : {arr}')
     pass
 
 def main():
-    down_heap(array[:])
     sort_heap(array[:])
 
 if __name__ == '__main__':
