@@ -37,7 +37,7 @@ def dijkstra(start):
     D[start] = (0, start)
     # 내륙을 모아두는 셋
     completed = set()
-    global origins, costs
+    global origins
     # 어디서 온건지 기록하는 dict
     origins = dict()
 
