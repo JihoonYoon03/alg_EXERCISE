@@ -21,13 +21,19 @@ def append(s, e, w):
     else:
         mst.append((e,s,w))
     mst.sort(key=lambda e:e[0]*1000+e[1])
+
 def spanning():
     return len(mst) >= num_vertex - 1
+
 def onSameTree(u, v):
-    pass
+    return getRoot[u] == getRoot[v]
+
+# Recursive
 def getRoot(v):
     pass
-def connect(u, v):
+
+# Union
+def connect(s, e):
     pass
 
 edges.sort()
@@ -37,7 +43,7 @@ for s,e,w in edges:
     if onSameTree(s, e): continue
 
     append(s, e, w)
-    connect(u, v)
+    connect(s, e)
 
 print(mst)
 

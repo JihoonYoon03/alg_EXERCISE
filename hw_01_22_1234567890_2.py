@@ -12,6 +12,12 @@ edges=[
 ]
 num_vertex = 23
 
+# 엣지 리스트를 변환. i = 출발점, g[i] = { 도착점 : 비용 }
+g = { i : dict() for i in range(num_vertex) }
+for u, v, w in edges:
+    g[u][v] = w # u에서 v로 가는 비용
+    g[v][u] = w # v에서 u로 가는 비용
+
 roots = []
 
 mst = []
@@ -22,28 +28,36 @@ def append(s, e, w):
         mst.append((e,s,w))
     mst.sort(key=lambda e:e[0]*1000+e[1])
 
-def spanning():
-    return len(mst) >= num_vertex - 1
+from heapdict import heapdict
 
-def onSameTree(u, v):
-    return getRoot[u] == getRoot[v]
+def prim(start):
+    # D = 다음 확정할 노드들 목록 (최소 힙)
+    D = heapdict()
+    # key = 도착점, value = (비용, 출발점)
+    D[start] = (0, start)
+    # 내륙을 모아두는 셋
+    completed = set()
 
-# Recursive
-def getRoot(v):
-    pass
+    # main loop, 알려진 거리가 있는 동안 반복
+    while D:
+        # 제일 비용이 적은 아이템 pop = 노드 확정
+        index_to, (weight, index_from) = D.popitem()
+        completed.add(index_to)
 
-# Union
-def connect(s, e):
-    pass
+        # 첫 번째 실행에는 다른 점과 연결되지 않으므로 제외
+        if index_from != index_to:
+            append(index_from, index_to, weight)
 
-edges.sort()
+        # items로 key와 value 튜플을 얻어서 이용. adj_index: 도착점, adj_weight: 비용
+        for adj_index, adj_weight in g[index_to].items():
+            # 이미 확정된 노드 제외
+            if adj_index in completed:
+                continue
+            # 추가되지 않은 노드 or 기존보다 비용이 적은 경로인 경우 갱신
+            if not adj_index in D or D[adj_index][0] > adj_weight:
+                D[adj_index] = adj_weight, index_to
 
-for s,e,w in edges:
-    if spanning(): break
-    if onSameTree(s, e): continue
-
-    append(s, e, w)
-    connect(s, e)
+prim(8)
 
 print(mst)
 
