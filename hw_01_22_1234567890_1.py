@@ -52,5 +52,8 @@ for s,e,w in edges:
     append(s, e, w)
     connect(s, e)
 
-print(mst)
+print('[')
+for result in mst:
+    print(f'({result[0]}, {result[1]}, {result[2]}),')
+print(']')
 
