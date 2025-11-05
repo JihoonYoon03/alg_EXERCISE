@@ -12,7 +12,7 @@ edges=[
 ]
 num_vertex = 23
 
-roots = []
+roots = [ i for i in range(num_vertex) ]
 
 mst = []
 def append(s, e, w):
@@ -26,17 +26,24 @@ def spanning():
     return len(mst) >= num_vertex - 1
 
 def onSameTree(u, v):
-    return getRoot[u] == getRoot[v]
+    return getRoot(u) == getRoot(v)
 
 # Recursive
 def getRoot(v):
-    pass
+    if v != roots[v]:
+        roots[v] = getRoot(roots[v])
+    return roots[v]
 
 # Union
 def connect(s, e):
-    pass
+    global roots
+    sroot = getRoot(s)
+    eroot = getRoot(e)
+    if sroot > eroot:
+        sroot, eroot = eroot, sroot
+    roots[eroot] = sroot
 
-edges.sort()
+edges.sort(key = lambda e:e[2])
 
 for s,e,w in edges:
     if spanning(): break
