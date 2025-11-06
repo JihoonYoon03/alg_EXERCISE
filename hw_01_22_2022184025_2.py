@@ -59,5 +59,7 @@ def prim(start):
 
 prim(8)
 
-print(mst)
-
+print('[')
+for result in mst:
+    print(f'({result[0]}, {result[1]}, {result[2]}),')
+print(']')
